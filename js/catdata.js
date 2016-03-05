@@ -98,7 +98,7 @@ var catListView = {
 	},
 
 	render: function() {
-		var cat, liElem, aElem, i;
+		var cat, buttonElem, i;
 
 		var cats = controller.getCats();
 
@@ -106,10 +106,6 @@ var catListView = {
 			return function() {
 				controller.setCurrentCat(catCopy);
 				catImgView.render();
-				catListView.catListElem
-					.children().children().removeClass("btn-success");
-				$(this).addClass("btn-success");
-
 				controller.refreshViews();
 			};
 		}
@@ -118,14 +114,12 @@ var catListView = {
 			cat = cats[i];
 
 			// Here create nested element <li><a></a></li>
-			liElem = document.createElement('li');
-			aElem = document.createElement('a');
-			$(aElem).addClass("btn btn-primary btn-sm");
-			aElem.textContent = cat.name;
+			buttonElem = document.createElement('button');
+			buttonElem.className += 'btn btn-default';
+			buttonElem.textContent = cat.name;
 
-			aElem.addEventListener('click', (generateCatClickHandler(cat)));
-			liElem.appendChild(aElem);
-			this.catListElem.append(liElem);
+			buttonElem.addEventListener('click', (generateCatClickHandler(cat)));
+			this.catListElem.append(buttonElem);
 		}
 	}
 };
@@ -155,54 +149,9 @@ var catAdminView = {
 
 controller.init();
 
-// for (var i = 0; i < cats.length; i++) {
-// 	$("#catList").append(
-// 		"<li>" + '<a class="btn btn-primary btn-xs active"' +
-// 		'role="button" data-catid=' +
-// 		cats[i].id + ">" +
-// 		cats[i].name +
-// 		"</a>" + "</li>")
-// }
-
-
-
-// // Controller
-// $("#catList > li > a").click(function() {
-// 	var selectedCatId = $(this).data("catid");
-// 	$("#clickCountDisplay").show();
-// 	for (var i = 0; i < cats.length; i++) {
-// 		var cat = cats[i];
-// 		if (cat.id == selectedCatId) {
-// 			cat.clicks += 1;
-// 			var catImgSrc = cat.src;
-// 			$("img#selectedCat").attr("src", "img/" + catImgSrc);
-// 			$("img#selectedCat").data("catid", cat.id);
-// 			$("#clkPicName").html(cat.name);
-// 			$("#clkCount").html(cat.clicks);
-// 		}
-// 	}
-// })
-
-// // Can refector some here
-// $("img#selectedCat").click(function() {
-// 	var catid = $(this).data("catid");
-// 	for (var i = 0; i < cats.length; i++) {
-// 		var cat = cats[i];
-// 		if (cat.id == catid) {
-// 			cat.clicks += 1;
-// 			view.clickCounterElem.html(cat.clicks);
-// 		}
-// 	}
-// })
-
 function generateCatClickHandler(catCopy) {
 	return function() {
 		controller.setCurrentCat(catCopy);
 		catImgView.render();
 	};
 }
-
-// for (i = 0; i < cats.length; i++) {
-// 	cat = cats[i];
-// 	elem.addEventListener('click', (generateCatClickHandler(cat)));
-// }
